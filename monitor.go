@@ -12,6 +12,8 @@ const DefaultTimeout = time.Second
 const DefaultTimeFormat = "15:04:05 Jan 2 MST"
 const HistorySize = 10
 
+var mutex = &sync.Mutex{}
+
 type MonitorInterface interface {
 	ClockStart(*CachetMonitor, MonitorInterface, *sync.WaitGroup)
 	ClockStop()
@@ -142,9 +144,12 @@ func (mon *AbstractMonitor) ClockStop() {
 func (mon *AbstractMonitor) test() bool { return false }
 
 func (mon *AbstractMonitor) tick(iface MonitorInterface) {
+	mutex.Lock()
 	reqStart := getMs()
 	up := iface.test()
 	lag := getMs() - reqStart
+	mutex.Unlock()
+	logrus.Warnf("%s, lag: %d", mon.Name, lag)
 
 	histSize := HistorySize
 	if mon.ThresholdCount {
