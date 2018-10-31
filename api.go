@@ -13,9 +13,14 @@ import (
 )
 
 type CachetAPI struct {
-	URL      string `json:"url"`
-	Token    string `json:"token"`
-	Insecure bool   `json:"insecure"`
+	URL            string `json:"url"`
+	Token          string `json:"token"`
+	Insecure       bool   `json:"insecure"`
+	RocketURL      string `json:"rocketurl"`
+	RocketUser     string `json:"rocketuser"`
+	RocketPassword string `json:"rocketpassword"`
+	RocketRoomID   string `json:"rocketroomid"`
+	RocketRoomName string `json:"rocketroomname"`
 }
 
 type CachetResponse struct {

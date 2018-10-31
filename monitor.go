@@ -149,7 +149,7 @@ func (mon *AbstractMonitor) tick(iface MonitorInterface) {
 	up := iface.test()
 	lag := getMs() - reqStart
 	mutex.Unlock()
-	logrus.Warnf("%s, lag: %d", mon.Name, lag)
+	// logrus.Warnf("%s, lag: %d", mon.Name, lag)
 
 	histSize := HistorySize
 	if mon.ThresholdCount {

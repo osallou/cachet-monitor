@@ -23,6 +23,7 @@ type Incident struct {
 
 // Send - Create or Update incident
 func (incident *Incident) Send(cfg *CachetMonitor) error {
+
 	switch incident.Status {
 	case 1, 2, 3:
 		// partial outage
@@ -42,31 +43,36 @@ func (incident *Incident) Send(cfg *CachetMonitor) error {
 		incident.ComponentStatus = 1
 	}
 
-	requestType := "POST"
-	requestURL := "/incidents"
-	if incident.ID > 0 {
-		requestType = "PUT"
-		requestURL += "/" + strconv.Itoa(incident.ID)
-	}
+	message := "Web: " + incident.Name + ", " + incident.Message
 
-	jsonBytes, _ := json.Marshal(incident)
+	PostIncidentRocket(message, cfg)
 
-	resp, body, err := cfg.API.NewRequest(requestType, requestURL, jsonBytes)
-	if err != nil {
-		return err
-	}
+	/*
+		requestType := "POST"
+		requestURL := "/incidents"
+		if incident.ID > 0 {
+			requestType = "PUT"
+			requestURL += "/" + strconv.Itoa(incident.ID)
+		}
 
-	var data struct {
-		ID int `json:"id"`
-	}
-	if err := json.Unmarshal(body.Data, &data); err != nil {
-		return fmt.Errorf("Cannot parse incident body: %v, %v", err, string(body.Data))
-	}
+		jsonBytes, _ := json.Marshal(incident)
 
-	incident.ID = data.ID
-	if resp.StatusCode != 200 {
-		return fmt.Errorf("Could not create/update incident!")
-	}
+		resp, body, err := cfg.API.NewRequest(requestType, requestURL, jsonBytes)
+		if err != nil {
+			return err
+		}
+
+		var data struct {
+			ID int `json:"id"`
+		}
+		if err := json.Unmarshal(body.Data, &data); err != nil {
+			return fmt.Errorf("Cannot parse incident body: %v, %v", err, string(body.Data))
+		}
+
+		incident.ID = data.ID
+		if resp.StatusCode != 200 {
+			return fmt.Errorf("Could not create/update incident!")
+		}*/
 
 	return nil
 }

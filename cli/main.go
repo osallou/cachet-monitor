@@ -89,6 +89,9 @@ func main() {
 		os.Exit(1)
 	}
 	logrus.Infof("Ping OK")
+	logrus.Infof("Rocket: %v", cfg.API)
+
+	cachet.PostIncidentRocket("Starting web site monitoring", cfg)
 
 	wg := &sync.WaitGroup{}
 	for index, monitor := range cfg.Monitors {

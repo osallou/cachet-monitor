@@ -4,6 +4,11 @@ api:
   # cachet api token
   token: 9yMHsdioQosnyVK4iCVR
   insecure: false
+  rocketurl: https://instant.cesgo.org
+  rocketuser: "xx"
+  rocketpassword: "xxxx"
+  rocketroomid: "xxxx"
+  rocketroomname: "#xyz"
 # https://golang.org/src/time/format.go#L57
 date_format: 02/01/2006 15:04:05 MST
 monitors:
